@@ -78,3 +78,6 @@ btnResume.addEventListener('click', () => {
         interval.innerHTML = count
     }, 1000)
 })
+///////////////////////////////////////////////////////////////////
+// Homework3
+
