@@ -18,20 +18,8 @@ closeModalButton.onclick = () => closeModal()
 modal.onclick = (event) => {
     if (event.target === modal) closeModal()
 }
-//1//
-let slide = 0;
-function autoSlider () {
-    const slider = setInterval( (i) => {
-        slide++
-        if (slide > 4) {
-            slide = 0
-        }
-        hideTabContent()
-        showTabContent(slide)
-    },3000)
-}
-autoSlider()
-//2//
+
+// Homework3_part2 //
 const scrollModal = () => {
     const page = document.documentElement
     if (page.scrollTop + page.clientHeight >= page.scrollHeight) {
@@ -40,6 +28,5 @@ const scrollModal = () => {
     }
 }
 window.addEventListener('scroll', scrollModal)
-// window.removeEventListener('scroll', scrollModal)
-//3//
-setTimeout(openModal, 10000)
+// Homework3_part3 //
+// setTimeout(openModal, 10000)
