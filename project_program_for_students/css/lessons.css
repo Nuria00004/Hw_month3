@@ -145,3 +145,28 @@
     flex-direction: column;
 }
 
+/*------WEATHER------*/
+
+.weather {
+    padding: 100px 0;
+    background-color: black;
+}
+
+.inner_weather > div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-size: 25px;
+}
+
+.inner_weather {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.inner_weather hr {
+    width: 100%;
+}

@@ -251,9 +251,32 @@ const request = () => {
         .then(response => response.json())
         .then((data) => console.log(data))
 }
-request()
+// request()
 
+// lesson7
+//////////////////////////////////////////////////
+// WEATHER
 
+const cityName = document.querySelector('.cityName')
+const city = document.querySelector('.city')
+const temp = document.querySelector('.temp')
+const apiKey = 'e417df62e04d3b1b111abeab19cea714'
+const baseUrl = 'http://api.openweathermap.org/data/2.5/weather'
 
+const citySearch = () => {
+    cityName.oninput = (event) => {
+        fetch(`${baseUrl}?q=${event.target.value}&appid=${apiKey}`)
+            .then(response => response.json())
+            .then(data => {
+                city.innerHTML = data?.name ? data.name : 'Город не найден...'
+                temp.innerHTML = data?.main?.temp ? Math.round(data.main.temp - 273) + '&deg;C' : '...'
+                // ?:)
+            })
+    }
+}
+citySearch()
+
+// http://api.openweathermap.org/data/2.5/weather
+// e417df62e04d3b1b111abeab19cea714
 
 
