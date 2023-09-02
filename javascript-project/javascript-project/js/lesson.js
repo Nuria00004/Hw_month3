@@ -285,4 +285,144 @@ converter(eur, som, usd)
 //     })
 // })
 
+/////////////////////////////////////////////////////
+// lesson6
+
+// console.log('Hello')
+
+// setTimeout(() => {
+//     let num = 0
+//     console.log(num)
+//     setTimeout(() => {
+//         console.log(num + 10)
+//         setTimeout(() => {
+//             num = 'ten'
+//             console.log(num)
+//         }, 3000)
+//     }, 1000)
+// }, 2000)
+
+// console.log('Loading...')
+// setTimeout(() => {
+//     const product = {
+//         name: 'Milk',
+//         price: '6$'
+//     }
+//     console.log('1 step')
+//     console.table(product)
+//     setTimeout(() => {
+//         console.log('2 step')
+//         product.price = '8$'
+//     }, 3000)
+// }, 1000)
+
+// Promise
+
+// console.log('Loading...')
+//
+// const promiseVariable = new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//         const product = {
+//             name: 'Milk',
+//             price: '6$'
+//         }
+//         console.log('1 step')
+//         console.log(product)
+//     }, 2000)
+// })
+//
+// const resolveData = (product) => {
+//     setTimeout(() => {
+//         product.price = '8$'
+//         console.log('2 step')
+//         console.log(product)
+//         resolve()
+//         reject()
+//     }, 1000)
+// }
+//
+// const rejectData = () => {
+//     return console.error('ERROR! PROMISE IS NOT RESOLVED!')
+// }
+//
+// promiseVariable.then(resolveData)
+////////////////////////////////////////
+// console.log('Loading...')
+//
+// const promiseVariable = new Promise((resolve) => {
+//     setTimeout(() => {
+//         const product = {
+//             name: 'Milk',
+//             price: '6$'
+//         }
+//         console.log('1 step')
+//         console.log(product)
+//         resolve(product)
+//     }, 2000)
+// })
+//
+//
+// promiseVariable.then(() => {
+//     return new Promise((product) => {
+//         setTimeout(() => {
+//             product.soldOut = true
+//             console.log('2 step')
+//             console.table(product)
+//             resolve(product)
+//         }, 2000)
+//     })
+// }).then((product) => {
+//     setTimeout(() => {
+//         product.soldOut = false
+//         product.price = '10$'
+//         console.log('3 step')
+//         console.table(product)
+//     }, 4000)
+// }).catch(() => {
+//     return console.log('ERROR')
+// }).finally(() => {
+//     console.log('FINALLY')
+// })
+///////////////////////////////////////////////////
+// fetch(), API
+// https://jsonplaceholder.typicode.com/
+
+fetch('https://jsonplaceholder.typicode.com/todos/100')
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+
+
+fetch('https://jsonplaceholder.typicode.com/todos/100', {
+    method: "GET",
+    headers: {
+        "Content-type" : "application/json"}
+})
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+
+///////////////////////////////////////////////////////////
+
+// CARD SWITCHER
+
+const card = document.querySelector('.card')
+const btnPrev = document.querySelector('#btn-prev')
+const btnNext = document.querySelector('#btn-next')
+let count = 1
+
+
+btnNext.onclick = () => {
+    count++
+    fetch(`https://jsonplaceholder.typicode.com/todos/${count}`)
+        .then(response => response.json())
+        .then(data => {
+            card.innerHTML =`
+            <p>${data.title}</p>>
+            <p style="color: ${data.completed ? 'green' : 'red'}">${data.completed}</p>
+            <span>${data.id}</span>
+            `
+        })
+}
+
+
+
 

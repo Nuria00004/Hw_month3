@@ -30,3 +30,4 @@ const scrollModal = () => {
 window.addEventListener('scroll', scrollModal)
 // Homework3_part3 //
 // setTimeout(openModal, 10000)
+///////////////////////////////////////////////////
