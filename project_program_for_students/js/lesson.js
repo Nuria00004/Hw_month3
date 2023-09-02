@@ -54,32 +54,30 @@ tabsParent.onclick = (event) => {
 // DRY - don`t repeat yourself
 // KISS - keep it short and simple
 
-const som = document.querySelector('#som')
-const usd = document.querySelector('#usd')
-
-const converter = (element, target, target2, isTrue) => {
-    element.oninput = () => {
-        const request = new XMLHttpRequest()
-        request.open("GET", "../data/converter.json")
-        request.setRequestHeader("Content-type", "application/json")
-        request.send()
-
-        request.onload = () => {
-            const response = JSON.parse(request.response)
-            if (isTrue) {
-                target.value = (element.value / response.usd).toFixed(2)
-            } else {
-                target.value = (element.value * response.usd).toFixed(2)
-            }
-            element.value === '' && (target.value = '')
+const som = document.querySelector("#som");
+const usd = document.querySelector("#usd");
+const eur = document.querySelector("#eur");
+const convert = (elem, target, target2) => {
+    elem.oninput =async () => {
+        const getData = async () => response = ((await fetch('data.json')).json())
+        const request = await getData()
+        if (elem === som) {
+            target.value = (elem.value / request.usd).toFixed(2);
+            target2.value = (elem.value / request.eur).toFixed(2);
+        } else if (elem === usd) {
+            target.value = (elem.value * request.usd).toFixed(2);
+            target2.value = (target.value / request.eur).toFixed(2);
+        } else if (elem === eu) {
+            target.value = (elem.value * request.eur).toFixed(2);
+            target2.value = (target.value / request.usd).toFixed(2);
         }
-    }
-}
-
-// 0, '', undefined, null, NaN, false
-
-converter(som, usd, true)
-converter(usd, som, false)
+        elem.value === "" && (target.value = "")
+        elem.value === "" && (target2.value = "");
+    };
+};
+convert(som, usd, eur);
+convert(usd, som, eur);
+convert(eur, som, usd);
 
 
 // lesson6
@@ -219,18 +217,31 @@ const btnPrev = document.querySelector('#btn-prev')
 const btnNext = document.querySelector('#btn-next')
 let count = 1
 
-const fetchData = (id) => {
-    fetch(`https://jsonplaceholder.typicode.com/todos/${id}`)
-        .then(response => response.json())
-        .then(data => {
-            card.innerHTML = `
+// const fetchData = (id) => {
+//     fetch(`https://jsonplaceholder.typicode.com/todos/${id}`)
+//         .then(response => response.json())
+//         .then(data => {
+//             card.innerHTML = `
+//             <p>${data.title}</p>
+//             <p style="color: ${data.completed ? 'green' : 'red'}">${data.completed}</p>
+//             <span>${data.id}</span>
+//             `
+//         })
+// }
+
+const fetchData = async (id) => {
+    try {
+        const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`)
+        const data = await response.json()
+        card.innerHTML = `
             <p>${data.title}</p>
             <p style="color: ${data.completed ? 'green' : 'red'}">${data.completed}</p>
             <span>${data.id}</span>
-            `
-        })
+        `
+    } catch (e) {
+        return console.error('ERROR', e)
+    }
 }
-
 
 btnNext.onclick = () => {
     count < 200 ? count ++ : count = 1
@@ -251,7 +262,7 @@ const request = () => {
         .then(response => response.json())
         .then((data) => console.log(data))
 }
-// request()
+request()
 
 // lesson7
 //////////////////////////////////////////////////
@@ -264,16 +275,32 @@ const apiKey = 'e417df62e04d3b1b111abeab19cea714'
 const baseUrl = 'http://api.openweathermap.org/data/2.5/weather'
 
 const citySearch = () => {
-    cityName.oninput = (event) => {
-        fetch(`${baseUrl}?q=${event.target.value}&appid=${apiKey}`)
-            .then(response => response.json())
-            .then(data => {
-                city.innerHTML = data?.name ? data.name : 'Город не найден...'
-                temp.innerHTML = data?.main?.temp ? Math.round(data.main.temp - 273) + '&deg;C' : '...'
-                // ?:)
-            })
+    cityName.oninput = async (event) => {
+        try {
+            const response = await fetch(`${baseUrl}?q=${event.target.value}&appid=${apiKey}`)
+            const data = await response.json()
+            city.innerHTML = data?.name || 'Город не найден...'
+            temp.innerHTML = data?.main?.temp ? Math.round(data?.main?.temp - 273) + '&deg;C' : '...'
+        } catch (e) {
+            console.log(e, 'ERROR')
+        }
+
     }
 }
+
+citySearch()
+
+// const citySearch = () => {
+//     cityName.oninput = (event) => {
+//         fetch(`${baseUrl}?q=${event.target.value}&appid=${apiKey}`)
+//             .then(response => response.json())
+//             .then(data => {
+//                 city.innerHTML = data?.name ? data.name : 'Город не найден...'
+//                 temp.innerHTML = data?.main?.temp ? Math.round(data.main.temp - 273) + '&deg;C' : '...'
+//                 // ?:)
+//             })
+//     }
+// }
 citySearch()
 
 // http://api.openweathermap.org/data/2.5/weather
